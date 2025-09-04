@@ -21,15 +21,11 @@ export default function Home() {
           with modern technologies and clean, efficient code.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/projects">
-            <a className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-medium transition-colors" data-testid="cta-projects">
-              View My Work
-            </a>
+          <Link href="/projects" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-medium transition-colors" data-testid="cta-projects">
+            View My Work
           </Link>
-          <Link href="/contact">
-            <a className="border border-border text-foreground hover:bg-muted px-8 py-3 rounded-lg font-medium transition-colors" data-testid="cta-contact">
-              Get In Touch
-            </a>
+          <Link href="/contact" className="border border-border text-foreground hover:bg-muted px-8 py-3 rounded-lg font-medium transition-colors" data-testid="cta-contact">
+            Get In Touch
           </Link>
         </div>
       </div>

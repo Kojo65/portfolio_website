@@ -86,7 +86,7 @@ export default function Contact() {
                     <Mail className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium">isaac.developer@email.com</p>
+                    <p className="font-medium">magboisaac390@gmail.com</p>
                     <p className="text-sm text-muted-foreground">Drop me an email</p>
                   </div>
                 </div>

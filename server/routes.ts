@@ -19,15 +19,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const transporter = nodemailer.createTransporter({
         service: 'gmail',
         auth: {
-          user: process.env.EMAIL_USER || process.env.GMAIL_USER || 'your.email@gmail.com',
+          user: process.env.EMAIL_USER || process.env.GMAIL_USER || 'magboisaac390@gmail.com',
           pass: process.env.EMAIL_PASS || process.env.GMAIL_PASS || 'your-app-password'
         }
       });
       
       // Email content
       const mailOptions = {
-        from: process.env.EMAIL_USER || process.env.GMAIL_USER || 'your.email@gmail.com',
-        to: process.env.CONTACT_EMAIL || process.env.EMAIL_USER || process.env.GMAIL_USER || 'isaac.developer@email.com',
+        from: process.env.EMAIL_USER || process.env.GMAIL_USER || 'magboisaac390@gmail.com',
+        to: process.env.CONTACT_EMAIL || process.env.EMAIL_USER || process.env.GMAIL_USER || 'magboisaac390@gmail.com',
         subject: `Portfolio Contact: Message from ${validatedData.name}`,
         html: `
           <h3>New Contact Form Submission</h3>
