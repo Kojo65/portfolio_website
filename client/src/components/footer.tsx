@@ -13,7 +13,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-6 md:mb-0 text-center md:text-left">
-            <h3 className="text-xl font-bold gradient-text mb-2">Isaac</h3>
+            <h3 className="text-xl font-bold gradient-text mb-2">Isaac Magbo</h3>
             <p className="text-muted-foreground">Full Stack Developer</p>
           </div>
           
@@ -39,7 +39,7 @@ export default function Footer() {
         
         <div className="mt-8 pt-8 border-t border-border text-center">
           <p className="text-muted-foreground">
-            &copy; 2024 Isaac. All rights reserved. Built with passion and modern web technologies.
+            &copy; 2024 Isaac Magbo. All rights reserved. Built with passion and modern web technologies.
           </p>
         </div>
       </div>

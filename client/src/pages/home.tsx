@@ -14,7 +14,7 @@ export default function Home() {
           />
         </div>
         <h1 className="text-4xl md:text-6xl font-bold mb-6" data-testid="hero-title">
-          Hi, I'm <span className="gradient-text">Isaac</span>
+          Hi, I'm <span className="gradient-text">Isaac Magbo</span>
         </h1>
         <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto" data-testid="hero-description">
           Full Stack Developer passionate about creating exceptional web experiences 
