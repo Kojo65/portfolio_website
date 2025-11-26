@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Isaac - Full Stack Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    borderRadius: {
+                        lg: "var(--radius)",
+                        md: "calc(var(--radius) - 2px)",
+                        sm: "calc(var(--radius) - 4px)",
+                    },
+                    colors: {
+                        background: "var(--background)",
+                        foreground: "var(--foreground)",
+                        card: {
+                            DEFAULT: "var(--card)",
+                            foreground: "var(--card-foreground)",
+                        },
+                        popover: {
+                            DEFAULT: "var(--popover)",
+                            foreground: "var(--popover-foreground)",
+                        },
+                        primary: {
+                            DEFAULT: "var(--primary)",
+                            foreground: "var(--primary-foreground)",
+                        },
+                        secondary: {
+                            DEFAULT: "var(--secondary)",
+                            foreground: "var(--secondary-foreground)",
+                        },
+                        muted: {
+                            DEFAULT: "var(--muted)",
+                            foreground: "var(--muted-foreground)",
+                        },
+                        accent: {
+                            DEFAULT: "var(--accent)",
+                            foreground: "var(--accent-foreground)",
+                        },
+                        destructive: {
+                            DEFAULT: "var(--destructive)",
+                            foreground: "var(--destructive-foreground)",
+                        },
+                        border: "var(--border)",
+                        input: "var(--input)",
+                        ring: "var(--ring)",
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    }
+                },
+            }
+        };
+    </script>
+    <style>
+        :root {
+            --background: hsl(222 84% 5%);
+            --foreground: hsl(210 40% 98%);
+            --card: hsl(222 84% 8%);
+            --card-foreground: hsl(210 40% 98%);
+            --popover: hsl(222 84% 8%);
+            --popover-foreground: hsl(210 40% 98%);
+            --primary: hsl(217 91% 60%);
+            --primary-foreground: hsl(222 84% 5%);
+            --secondary: hsl(217 32% 17%);
+            --secondary-foreground: hsl(210 40% 98%);
+            --muted: hsl(217 32% 17%);
+            --muted-foreground: hsl(215 20% 65%);
+            --accent: hsl(217 32% 17%);
+            --accent-foreground: hsl(210 40% 98%);
+            --destructive: hsl(0 62% 30%);
+            --destructive-foreground: hsl(210 40% 98%);
+            --border: hsl(217 32% 17%);
+            --input: hsl(217 32% 17%);
+            --ring: hsl(217 91% 60%);
+            --radius: 0.75rem;
+        }
+        
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, hsl(217 91% 60%), hsl(196 91% 60%));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-bg {
+            background: radial-gradient(ellipse at top, hsl(217 91% 15%), hsl(222 84% 5%));
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .nav-link {
+            transition: color 0.2s ease;
+        }
+        
+        .nav-link:hover {
+            color: hsl(217 91% 60%);
+        }
+        
+        .skill-tag {
+            transition: all 0.2s ease;
+        }
+        
+        .skill-tag:hover {
+            background: hsl(217 91% 60%);
+            color: hsl(222 84% 5%);
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground font-sans">
+    <!-- @COMPONENT: Navigation -->
+    <nav class="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold gradient-text">Isaac</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-foreground hover:text-primary">Home</a>
+                    <a href="#about" class="nav-link text-foreground hover:text-primary">About</a>
+                    <a href="#projects" class="nav-link text-foreground hover:text-primary">Projects</a>
+                    <a href="#contact" class="nav-link text-foreground hover:text-primary">Contact</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-foreground">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="#home" class="nav-link text-foreground hover:text-primary">Home</a>
+                    <a href="#about" class="nav-link text-foreground hover:text-primary">About</a>
+                    <a href="#projects" class="nav-link text-foreground hover:text-primary">Projects</a>
+                    <a href="#contact" class="nav-link text-foreground hover:text-primary">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: Navigation -->
+
+    <!-- @COMPONENT: Hero Section -->
+    <section id="home" class="min-h-screen hero-bg flex items-center justify-center relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6 py-20 text-center">
+            <div class="mb-8">
+                <!-- Professional headshot of Isaac in casual attire with natural background -->
+                <img src="attached_assets/Isaac_1756977006424.png" 
+                     alt="Isaac - Full Stack Developer" 
+                     class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-6 border-4 border-primary/20 shadow-2xl object-cover"
+                     data-mock="true" />
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                Hi, I'm <span class="gradient-text">Isaac</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+                Full Stack Developer passionate about creating exceptional web experiences 
+                with modern technologies and clean, efficient code.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#projects" class="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-medium transition-colors">
+                    View My Work
+                </a>
+                <a href="#contact" class="border border-border text-foreground hover:bg-muted px-8 py-3 rounded-lg font-medium transition-colors">
+                    Get In Touch
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Hero Section -->
+
+    <!-- @COMPONENT: About Section -->
+    <section id="about" class="py-20 bg-card">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
+                <p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+                    Passionate developer with a love for creating meaningful digital experiences
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6">My Story</h3>
+                    <div class="space-y-4 text-muted-foreground leading-relaxed" data-mock="true">
+                        <p>
+                            I'm a full-stack developer with a passion for building web applications that solve real-world problems. 
+                            My journey in tech started with curiosity about how websites work, which led me to dive deep into 
+                            both frontend and backend development.
+                        </p>
+                        <p>
+                            When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, 
+                            or sharing knowledge with the developer community. I believe in writing clean, maintainable code 
+                            and creating user experiences that make a difference.
+                        </p>
+                        <p>
+                            Currently, I'm focused on modern web technologies including React, Node.js, and cloud platforms, 
+                            always looking for opportunities to learn and grow as a developer.
+                        </p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6">Skills & Technologies</h3>
+                    <div class="grid grid-cols-2 gap-4" data-mock="true">
+                        <div class="space-y-3">
+                            <h4 class="font-medium text-primary">Frontend</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">React</span>
+                                <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">JavaScript</span>
+                                <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">TypeScript</span>
+                                <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">HTML/CSS</span>
+                                <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">Tailwind</span>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <h4 class="font-medium text-accent">Backend</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">Node.js</span>
+                                <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">Express</span>
+                                <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">Python</span>
+                                <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">Flask</span>
+                                <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">MongoDB</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h4 class="font-medium text-primary mb-3">Tools & Platforms</h4>
+                        <div class="flex flex-wrap gap-2" data-mock="true">
+                            <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">Git</span>
+                            <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">Docker</span>
+                            <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">AWS</span>
+                            <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">Vercel</span>
+                            <span class="skill-tag bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">Replit</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: About Section -->
+
+    <!-- @COMPONENT: Projects Section -->
+    <section id="projects" class="py-20 bg-background">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Featured Projects</h2>
+                <p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+                    A showcase of my recent work and personal projects
+                </p>
+            </div>
+            
+            <!-- @MAP: projects.map(project => ( -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" data-mock="true">
+                <!-- Project Card 1 -->
+                <div class="project-card bg-card rounded-xl overflow-hidden border border-border shadow-lg">
+                    <!-- Modern e-commerce website homepage with clean product grid layout -->
+                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400" 
+                         alt="E-commerce Platform" 
+                         class="w-full h-48 object-cover" />
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-3" data-bind="project.title">E-commerce Platform</h3>
+                        <p class="text-muted-foreground mb-4" data-bind="project.description">
+                            A full-featured online store built with React and Node.js, featuring user authentication, 
+                            payment integration, and admin dashboard.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-primary/10 text-primary px-2 py-1 rounded text-sm">React</span>
+                            <span class="bg-primary/10 text-primary px-2 py-1 rounded text-sm">Node.js</span>
+                            <span class="bg-primary/10 text-primary px-2 py-1 rounded text-sm">MongoDB</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors" data-implementation="Link to live demo">
+                                <i data-feather="external-link" class="w-4 h-4"></i>
+                                Live Demo
+                            </a>
+                            <a href="#" class="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors" data-implementation="Link to GitHub repo">
+                                <i data-feather="github" class="w-4 h-4"></i>
+                                Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="project-card bg-card rounded-xl overflow-hidden border border-border shadow-lg">
+                    <!-- Task management app interface with kanban board and productivity features -->
+                    <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400" 
+                         alt="Task Management App" 
+                         class="w-full h-48 object-cover" />
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-3" data-bind="project.title">Task Management App</h3>
+                        <p class="text-muted-foreground mb-4" data-bind="project.description">
+                            A collaborative task management tool with real-time updates, team collaboration features, 
+                            and intuitive drag-and-drop functionality.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-accent/10 text-accent-foreground px-2 py-1 rounded text-sm">Vue.js</span>
+                            <span class="bg-accent/10 text-accent-foreground px-2 py-1 rounded text-sm">Flask</span>
+                            <span class="bg-accent/10 text-accent-foreground px-2 py-1 rounded text-sm">PostgreSQL</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors" data-implementation="Link to live demo">
+                                <i data-feather="external-link" class="w-4 h-4"></i>
+                                Live Demo
+                            </a>
+                            <a href="#" class="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors" data-implementation="Link to GitHub repo">
+                                <i data-feather="github" class="w-4 h-4"></i>
+                                Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="project-card bg-card rounded-xl overflow-hidden border border-border shadow-lg">
+                    <!-- Weather application showing forecast interface with maps and charts -->
+                    <img src="https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400" 
+                         alt="Weather Dashboard" 
+                         class="w-full h-48 object-cover" />
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-3" data-bind="project.title">Weather Dashboard</h3>
+                        <p class="text-muted-foreground mb-4" data-bind="project.description">
+                            A responsive weather application with detailed forecasts, location search, 
+                            and beautiful data visualizations using modern APIs.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-secondary/10 text-secondary-foreground px-2 py-1 rounded text-sm">JavaScript</span>
+                            <span class="bg-secondary/10 text-secondary-foreground px-2 py-1 rounded text-sm">Chart.js</span>
+                            <span class="bg-secondary/10 text-secondary-foreground px-2 py-1 rounded text-sm">API</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors" data-implementation="Link to live demo">
+                                <i data-feather="external-link" class="w-4 h-4"></i>
+                                Live Demo
+                            </a>
+                            <a href="#" class="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors" data-implementation="Link to GitHub repo">
+                                <i data-feather="github" class="w-4 h-4"></i>
+                                Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 4 -->
+                <div class="project-card bg-card rounded-xl overflow-hidden border border-border shadow-lg">
+                    <!-- Social media dashboard with analytics and user engagement metrics -->
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400" 
+                         alt="Social Analytics Dashboard" 
+                         class="w-full h-48 object-cover" />
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-3" data-bind="project.title">Social Analytics Dashboard</h3>
+                        <p class="text-muted-foreground mb-4" data-bind="project.description">
+                            A comprehensive analytics platform for social media management with real-time data visualization 
+                            and performance insights.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-primary/10 text-primary px-2 py-1 rounded text-sm">React</span>
+                            <span class="bg-primary/10 text-primary px-2 py-1 rounded text-sm">Express</span>
+                            <span class="bg-primary/10 text-primary px-2 py-1 rounded text-sm">D3.js</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors" data-implementation="Link to live demo">
+                                <i data-feather="external-link" class="w-4 h-4"></i>
+                                Live Demo
+                            </a>
+                            <a href="#" class="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors" data-implementation="Link to GitHub repo">
+                                <i data-feather="github" class="w-4 h-4"></i>
+                                Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 5 -->
+                <div class="project-card bg-card rounded-xl overflow-hidden border border-border shadow-lg">
+                    <!-- Mobile app interface showing modern design and user experience -->
+                    <img src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400" 
+                         alt="Mobile App Development" 
+                         class="w-full h-48 object-cover" />
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-3" data-bind="project.title">Mobile-First Web App</h3>
+                        <p class="text-muted-foreground mb-4" data-bind="project.description">
+                            A progressive web application with offline capabilities, push notifications, 
+                            and native-like user experience across all devices.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-accent/10 text-accent-foreground px-2 py-1 rounded text-sm">PWA</span>
+                            <span class="bg-accent/10 text-accent-foreground px-2 py-1 rounded text-sm">Service Workers</span>
+                            <span class="bg-accent/10 text-accent-foreground px-2 py-1 rounded text-sm">IndexedDB</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors" data-implementation="Link to live demo">
+                                <i data-feather="external-link" class="w-4 h-4"></i>
+                                Live Demo
+                            </a>
+                            <a href="#" class="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors" data-implementation="Link to GitHub repo">
+                                <i data-feather="github" class="w-4 h-4"></i>
+                                Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 6 -->
+                <div class="project-card bg-card rounded-xl overflow-hidden border border-border shadow-lg">
+                    <!-- Open source project or API documentation interface -->
+                    <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400" 
+                         alt="Open Source Contribution" 
+                         class="w-full h-48 object-cover" />
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-3" data-bind="project.title">Open Source Library</h3>
+                        <p class="text-muted-foreground mb-4" data-bind="project.description">
+                            A lightweight utility library for React developers with comprehensive documentation 
+                            and TypeScript support, used by 500+ developers.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-secondary/10 text-secondary-foreground px-2 py-1 rounded text-sm">TypeScript</span>
+                            <span class="bg-secondary/10 text-secondary-foreground px-2 py-1 rounded text-sm">NPM</span>
+                            <span class="bg-secondary/10 text-secondary-foreground px-2 py-1 rounded text-sm">Jest</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors" data-implementation="Link to NPM package">
+                                <i data-feather="package" class="w-4 h-4"></i>
+                                NPM
+                            </a>
+                            <a href="#" class="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors" data-implementation="Link to GitHub repo">
+                                <i data-feather="github" class="w-4 h-4"></i>
+                                Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_MAP )) -->
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Projects Section -->
+
+    <!-- @COMPONENT: Contact Section -->
+    <section id="contact" class="py-20 bg-card">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
+                <p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+                    Have a project in mind or just want to connect? I'd love to hear from you.
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Contact Info -->
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-6">Let's Connect</h3>
+                        <p class="text-muted-foreground mb-6" data-mock="true">
+                            I'm always interested in new opportunities and collaborations. 
+                            Whether you have a project idea, need technical consultation, 
+                            or just want to discuss technology, feel free to reach out.
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-4" data-mock="true">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <i data-feather="mail" class="w-5 h-5 text-primary"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium" data-bind="contact.email">isaac.developer@email.com</p>
+                                <p class="text-sm text-muted-foreground">Drop me an email</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <i data-feather="map-pin" class="w-5 h-5 text-primary"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium" data-bind="contact.location">Available Globally</p>
+                                <p class="text-sm text-muted-foreground">Remote & on-site work</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <i data-feather="clock" class="w-5 h-5 text-primary"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Response Time</p>
+                                <p class="text-sm text-muted-foreground">Usually within 24 hours</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="bg-background rounded-xl p-8 border border-border">
+                    <form id="contact-form" data-implementation="Should submit to backend API endpoint">
+                        <!-- @STATE: formData:object = {name:'', email:'', message:''} -->
+                        <!-- @STATE: isSubmitting:boolean = false -->
+                        <!-- @STATE: submitStatus:string = '' -->
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium mb-2">Your Name</label>
+                                <input type="text" 
+                                       id="name" 
+                                       name="name" 
+                                       required 
+                                       class="w-full px-4 py-3 bg-input border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                                       placeholder="Enter your full name"
+                                       data-bind="formData.name" />
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-medium mb-2">Email Address</label>
+                                <input type="email" 
+                                       id="email" 
+                                       name="email" 
+                                       required 
+                                       class="w-full px-4 py-3 bg-input border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                                       placeholder="your.email@example.com"
+                                       data-bind="formData.email" />
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-sm font-medium mb-2">Message</label>
+                                <textarea id="message" 
+                                          name="message" 
+                                          rows="5" 
+                                          required 
+                                          class="w-full px-4 py-3 bg-input border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent transition-colors resize-none"
+                                          placeholder="Tell me about your project or just say hello..."
+                                          data-bind="formData.message"></textarea>
+                            </div>
+                            
+                            <button type="submit" 
+                                    class="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    data-event="click:handleSubmit"
+                                    data-implementation="Should validate form, show loading state, and handle submission">
+                                <span id="submit-text">Send Message</span>
+                                <span id="loading-text" class="hidden">Sending...</span>
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Success/Error Messages -->
+                    <div id="form-message" class="hidden mt-4 p-4 rounded-lg"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Contact Section -->
+
+    <!-- @COMPONENT: Footer -->
+    <footer class="bg-background border-t border-border py-12">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-xl font-bold gradient-text mb-2">Isaac</h3>
+                    <p class="text-muted-foreground">Full Stack Developer</p>
+                </div>
+                
+                <div class="flex items-center space-x-6" data-mock="true">
+                    <a href="#" class="text-muted-foreground hover:text-primary transition-colors" data-implementation="Link to GitHub profile">
+                        <i data-feather="github" class="w-6 h-6"></i>
+                    </a>
+                    <a href="#" class="text-muted-foreground hover:text-primary transition-colors" data-implementation="Link to LinkedIn profile">
+                        <i data-feather="linkedin" class="w-6 h-6"></i>
+                    </a>
+                    <a href="#" class="text-muted-foreground hover:text-primary transition-colors" data-implementation="Link to Twitter profile">
+                        <i data-feather="twitter" class="w-6 h-6"></i>
+                    </a>
+                    <a href="#" class="text-muted-foreground hover:text-primary transition-colors" data-implementation="Link to email">
+                        <i data-feather="mail" class="w-6 h-6"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-border text-center">
+                <p class="text-muted-foreground">&copy; 2024 Isaac. All rights reserved. Built with passion and modern web technologies.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        // Mobile menu toggle functionality
+        (function() {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuBtn?.addEventListener('click', function() {
+                mobileMenu?.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking on links
+            const mobileLinks = mobileMenu?.querySelectorAll('a');
+            mobileLinks?.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu?.classList.add('hidden');
+                });
+            });
+        })();
+
+        // Smooth scrolling for navigation links
+        (function() {
+            const navLinks = document.querySelectorAll('a[href^="#"]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        })();
+
+        // Contact form handling
+        (function() {
+            const contactForm = document.getElementById('contact-form');
+            const submitText = document.getElementById('submit-text');
+            const loadingText = document.getElementById('loading-text');
+            const formMessage = document.getElementById('form-message');
+            
+            contactForm?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                if (submitText && loadingText) {
+                    submitText.classList.add('hidden');
+                    loadingText.classList.remove('hidden');
+                }
+                
+                // Get form data
+                const formData = new FormData(this);
+                const data = {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    message: formData.get('message')
+                };
+                
+                // TODO: Implement actual form submission to backend
+                // This would typically send data to a Node.js/Express or Flask backend
+                // Example: fetch('/api/contact', { method: 'POST', body: JSON.stringify(data) })
+                
+                // Simulate form submission for mockup
+                setTimeout(() => {
+                    // Reset loading state
+                    if (submitText && loadingText) {
+                        submitText.classList.remove('hidden');
+                        loadingText.classList.add('hidden');
+                    }
+                    
+                    // Show success message
+                    if (formMessage) {
+                        formMessage.className = 'mt-4 p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400';
+                        formMessage.textContent = 'Thank you for your message! I\'ll get back to you soon.';
+                        formMessage.classList.remove('hidden');
+                    }
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        formMessage?.classList.add('hidden');
+                    }, 5000);
+                }, 2000);
+            });
+        })();
+
+        // Navbar background opacity on scroll
+        (function() {
+            const navbar = document.querySelector('nav');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    navbar?.classList.add('bg-background/95');
+                    navbar?.classList.remove('bg-background/80');
+                } else {
+                    navbar?.classList.add('bg-background/80');
+                    navbar?.classList.remove('bg-background/95');
+                }
+            });
+        })();
+
+        // Form validation
+        (function() {
+            const inputs = document.querySelectorAll('#contact-form input, #contact-form textarea');
+            
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    if (this.hasAttribute('required') && !this.value.trim()) {
+                        this.classList.add('border-destructive');
+                        this.classList.remove('border-border');
+                    } else {
+                        this.classList.remove('border-destructive');
+                        this.classList.add('border-border');
+                    }
+                });
+                
+                input.addEventListener('input', function() {
+                    if (this.classList.contains('border-destructive') && this.value.trim()) {
+                        this.classList.remove('border-destructive');
+                        this.classList.add('border-border');
+                    }
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Isaac - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                borderRadius: {
+                    lg: "var(--radius)",
+                    md: "calc(var(--radius) - 2px)",
+                    sm: "calc(var(--radius) - 4px)",
+                },
+                colors: {
+                    background: "var(--background)",
+                    foreground: "var(--foreground)",
+                    card: {
+                        DEFAULT: "var(--card)",
+                        foreground: "var(--card-foreground)",
+                    },
+                    popover: {
+                        DEFAULT: "var(--popover)",
+                        foreground: "var(--popover-foreground)",
+                    },
+                    primary: {
+                        DEFAULT: "var(--primary)",
+                        foreground: "var(--primary-foreground)",
+                    },
+                    secondary: {
+                        DEFAULT: "var(--secondary)",
+                        foreground: "var(--secondary-foreground)",
+                    },
+                    muted: {
+                        DEFAULT: "var(--muted)",
+                        foreground: "var(--muted-foreground)",
+                    },
+                    accent: {
+                        DEFAULT: "var(--accent)",
+                        foreground: "var(--accent-foreground)",
+                    },
+                    destructive: {
+                        DEFAULT: "var(--destructive)",
+                        foreground: "var(--destructive-foreground)",
+                    },
+                    border: "var(--border)",
+                    input: "var(--input)",
+                    ring: "var(--ring)",
+                }
+            },
+            fontFamily: {
+                sans: ["Inter", "sans-serif"],
+            }
+        },
+    };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --background: hsl(0 0% 100%);
+            --foreground: hsl(222.2 84% 4.9%);
+            --card: hsl(0 0% 100%);
+            --card-foreground: hsl(222.2 84% 4.9%);
+            --popover: hsl(0 0% 100%);
+            --popover-foreground: hsl(222.2 84% 4.9%);
+            --primary: hsl(214 100% 59%);
+            --primary-foreground: hsl(210 40% 98%);
+            --secondary: hsl(210 40% 96%);
+            --secondary-foreground: hsl(222.2 47.4% 11.2%);
+            --muted: hsl(210 40% 96%);
+            --muted-foreground: hsl(215.4 16.3% 46.9%);
+            --accent: hsl(210 40% 96%);
+            --accent-foreground: hsl(222.2 47.4% 11.2%);
+            --destructive: hsl(0 84.2% 60.2%);
+            --destructive-foreground: hsl(210 40% 98%);
+            --border: hsl(214.3 31.8% 91.4%);
+            --input: hsl(214.3 31.8% 91.4%);
+            --ring: hsl(214 100% 59%);
+            --radius: 0.5rem;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, hsl(214 100% 59%) 0%, hsl(214 100% 49%) 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: hsl(214 100% 59%);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .section-visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+        
+        .section-hidden {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground">
+    <!-- Navigation -->
+    <!-- @COMPONENT: Navigation [sticky header with smooth scroll links] -->
+    <nav class="fixed top-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-b border-border z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-xl font-bold text-primary">Isaac</span>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="flex items-baseline space-x-8">
+                        <a href="#home" class="nav-link text-foreground hover:text-primary px-3 py-2 text-sm font-medium">Home</a>
+                        <a href="#about" class="nav-link text-foreground hover:text-primary px-3 py-2 text-sm font-medium">About</a>
+                        <a href="#projects" class="nav-link text-foreground hover:text-primary px-3 py-2 text-sm font-medium">Projects</a>
+                        <a href="#contact" class="nav-link text-foreground hover:text-primary px-3 py-2 text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" class="mobile-menu-btn bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground inline-flex items-center justify-center p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-ring">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-menu hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 bg-background border-t border-border">
+                <a href="#home" class="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md">Home</a>
+                <a href="#about" class="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md">About</a>
+                <a href="#projects" class="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md">Projects</a>
+                <a href="#contact" class="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent rounded-md">Contact</a>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: Navigation -->
+
+    <!-- Hero Section -->
+    <!-- @COMPONENT: HeroSection [main landing section with profile image and introduction] -->
+    <section id="home" class="hero-gradient min-h-screen flex items-center justify-center pt-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center">
+                <div class="mb-8">
+                    <img src="attached_assets/Isaac_1756977006424.png" alt="Isaac - Profile Photo" class="w-32 h-32 sm:w-40 sm:h-40 rounded-full mx-auto shadow-2xl border-4 border-white object-cover" data-mock="true">
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
+                    Hi, I'm <span class="text-yellow-300">Isaac</span>
+                </h1>
+                <p class="text-xl sm:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed" data-mock="true">
+                    A passionate full-stack developer who loves creating innovative digital solutions that make a difference. Welcome to my digital portfolio!
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#projects" class="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        View My Work
+                    </a>
+                    <a href="#contact" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition-all duration-300">
+                        Get In Touch
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: HeroSection -->
+
+    <!-- About Section -->
+    <!-- @COMPONENT: AboutSection [detailed information about skills and experience] -->
+    <section id="about" class="py-20 bg-muted">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold text-foreground mb-4">About Me</h2>
+                <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+                    Get to know more about my journey, skills, and what drives my passion for technology.
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-bold text-foreground mb-4">My Journey</h3>
+                    <p class="text-muted-foreground leading-relaxed" data-mock="true">
+                        I'm a dedicated software developer with over 3 years of experience in creating web applications and digital solutions. My journey began with a curiosity about how things work on the internet, which led me to dive deep into programming languages and frameworks.
+                    </p>
+                    <p class="text-muted-foreground leading-relaxed" data-mock="true">
+                        I specialize in full-stack development, with expertise in modern JavaScript frameworks, backend technologies, and database management. I'm passionate about writing clean, efficient code and creating user experiences that are both functional and delightful.
+                    </p>
+                    
+                    <div class="pt-6">
+                        <h4 class="text-lg font-semibold text-foreground mb-4">What I Do</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-center text-muted-foreground">
+                                <i class="fas fa-check-circle text-primary mr-3"></i>
+                                Full-Stack Web Development
+                            </li>
+                            <li class="flex items-center text-muted-foreground">
+                                <i class="fas fa-check-circle text-primary mr-3"></i>
+                                Mobile App Development
+                            </li>
+                            <li class="flex items-center text-muted-foreground">
+                                <i class="fas fa-check-circle text-primary mr-3"></i>
+                                UI/UX Design & Prototyping
+                            </li>
+                            <li class="flex items-center text-muted-foreground">
+                                <i class="fas fa-check-circle text-primary mr-3"></i>
+                                Database Design & Optimization
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-foreground mb-6">Technical Skills</h3>
+                        <div class="space-y-4">
+                            <!-- Frontend Skills -->
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium text-foreground">Frontend Development</span>
+                                    <span class="text-sm text-muted-foreground">90%</span>
+                                </div>
+                                <div class="w-full bg-secondary rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Backend Skills -->
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium text-foreground">Backend Development</span>
+                                    <span class="text-sm text-muted-foreground">85%</span>
+                                </div>
+                                <div class="w-full bg-secondary rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Database -->
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium text-foreground">Database Management</span>
+                                    <span class="text-sm text-muted-foreground">80%</span>
+                                </div>
+                                <div class="w-full bg-secondary rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- UI/UX -->
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm font-medium text-foreground">UI/UX Design</span>
+                                    <span class="text-sm text-muted-foreground">75%</span>
+                                </div>
+                                <div class="w-full bg-secondary rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 75%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="text-center p-6 bg-card rounded-lg border border-border">
+                            <div class="text-2xl font-bold text-primary mb-2" data-mock="true">3+</div>
+                            <div class="text-sm text-muted-foreground">Years Experience</div>
+                        </div>
+                        <div class="text-center p-6 bg-card rounded-lg border border-border">
+                            <div class="text-2xl font-bold text-primary mb-2" data-mock="true">25+</div>
+                            <div class="text-sm text-muted-foreground">Projects Completed</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: AboutSection -->
+
+    <!-- Projects Section -->
+    <!-- @COMPONENT: ProjectsSection [portfolio grid with project cards] -->
+    <section id="projects" class="py-20 bg-background">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold text-foreground mb-4">My Projects</h2>
+                <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+                    Here are some of the projects I've worked on recently. Each one represents a unique challenge and learning experience.
+                </p>
+            </div>
+            
+            <!-- @MAP: projects.map(project => ( -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="bg-card rounded-lg border border-border overflow-hidden card-hover" data-mock="true">
+                    <!-- Modern e-commerce platform dashboard with clean interface and analytics -->
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" alt="E-commerce Platform Dashboard" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-card-foreground mb-2">E-Commerce Platform</h3>
+                        <p class="text-muted-foreground mb-4">A full-stack e-commerce solution built with React, Node.js, and MongoDB. Features include user authentication, payment integration, and admin dashboard.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">React</span>
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">Node.js</span>
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">MongoDB</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="text-primary hover:text-primary/80 transition-colors" data-implementation="Link to live demo">
+                                <i class="fas fa-external-link-alt mr-1"></i>Live Demo
+                            </a>
+                            <a href="#" class="text-muted-foreground hover:text-foreground transition-colors" data-implementation="Link to GitHub repo">
+                                <i class="fab fa-github mr-1"></i>Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="bg-card rounded-lg border border-border overflow-hidden card-hover" data-mock="true">
+                    <!-- Task management application interface with kanban board layout -->
+                    <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" alt="Task Management App Interface" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-card-foreground mb-2">Task Management App</h3>
+                        <p class="text-muted-foreground mb-4">A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">Vue.js</span>
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">Express</span>
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">Socket.io</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="text-primary hover:text-primary/80 transition-colors" data-implementation="Link to live demo">
+                                <i class="fas fa-external-link-alt mr-1"></i>Live Demo
+                            </a>
+                            <a href="#" class="text-muted-foreground hover:text-foreground transition-colors" data-implementation="Link to GitHub repo">
+                                <i class="fab fa-github mr-1"></i>Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="bg-card rounded-lg border border-border overflow-hidden card-hover" data-mock="true">
+                    <!-- Weather application showing beautiful interface with weather data -->
+                    <img src="https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" alt="Weather App Interface" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-card-foreground mb-2">Weather Forecast App</h3>
+                        <p class="text-muted-foreground mb-4">A beautiful weather application with location-based forecasts, interactive maps, and detailed weather analytics for multiple cities.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">React Native</span>
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">API Integration</span>
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">Maps</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="text-primary hover:text-primary/80 transition-colors" data-implementation="Link to live demo">
+                                <i class="fas fa-external-link-alt mr-1"></i>Live Demo
+                            </a>
+                            <a href="#" class="text-muted-foreground hover:text-foreground transition-colors" data-implementation="Link to GitHub repo">
+                                <i class="fab fa-github mr-1"></i>Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 4 -->
+                <div class="bg-card rounded-lg border border-border overflow-hidden card-hover" data-mock="true">
+                    <!-- Social media dashboard with analytics and engagement metrics -->
+                    <img src="https://images.unsplash.com/photo-1611262588024-d12430b98920?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" alt="Social Media Dashboard" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-card-foreground mb-2">Social Media Dashboard</h3>
+                        <p class="text-muted-foreground mb-4">A comprehensive social media management dashboard with analytics, scheduling, and engagement tracking across multiple platforms.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">Angular</span>
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">Python</span>
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">PostgreSQL</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="text-primary hover:text-primary/80 transition-colors" data-implementation="Link to live demo">
+                                <i class="fas fa-external-link-alt mr-1"></i>Live Demo
+                            </a>
+                            <a href="#" class="text-muted-foreground hover:text-foreground transition-colors" data-implementation="Link to GitHub repo">
+                                <i class="fab fa-github mr-1"></i>Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 5 -->
+                <div class="bg-card rounded-lg border border-border overflow-hidden card-hover" data-mock="true">
+                    <!-- Cryptocurrency trading platform with charts and real-time data -->
+                    <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" alt="Crypto Trading Platform" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-card-foreground mb-2">Crypto Trading Platform</h3>
+                        <p class="text-muted-foreground mb-4">A real-time cryptocurrency trading platform with advanced charting, portfolio management, and automated trading strategies.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">Next.js</span>
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">WebSocket</span>
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">Chart.js</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="text-primary hover:text-primary/80 transition-colors" data-implementation="Link to live demo">
+                                <i class="fas fa-external-link-alt mr-1"></i>Live Demo
+                            </a>
+                            <a href="#" class="text-muted-foreground hover:text-foreground transition-colors" data-implementation="Link to GitHub repo">
+                                <i class="fab fa-github mr-1"></i>Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 6 -->
+                <div class="bg-card rounded-lg border border-border overflow-hidden card-hover" data-mock="true">
+                    <!-- Learning management system interface with course materials -->
+                    <img src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" alt="Learning Management System" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-card-foreground mb-2">Learning Management System</h3>
+                        <p class="text-muted-foreground mb-4">An educational platform with course creation, student progress tracking, interactive quizzes, and video streaming capabilities.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">Django</span>
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">React</span>
+                            <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md">AWS</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="text-primary hover:text-primary/80 transition-colors" data-implementation="Link to live demo">
+                                <i class="fas fa-external-link-alt mr-1"></i>Live Demo
+                            </a>
+                            <a href="#" class="text-muted-foreground hover:text-foreground transition-colors" data-implementation="Link to GitHub repo">
+                                <i class="fab fa-github mr-1"></i>Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_MAP )) -->
+        </div>
+    </section>
+    <!-- @END_COMPONENT: ProjectsSection -->
+
+    <!-- Contact Section -->
+    <!-- @COMPONENT: ContactSection [contact form with backend integration] -->
+    <section id="contact" class="py-20 bg-muted">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold text-foreground mb-4">Get In Touch</h2>
+                <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+                    I'm always interested in new opportunities and collaborations. Let's discuss how we can work together!
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-foreground mb-6">Let's Connect</h3>
+                        <p class="text-muted-foreground mb-8" data-mock="true">
+                            Whether you have a project in mind, want to collaborate, or just want to say hello, I'd love to hear from you. I typically respond within 24 hours.
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
+                                <i class="fas fa-envelope text-primary-foreground"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-foreground">Email</h4>
+                                <p class="text-muted-foreground" data-mock="true">isaac@example.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
+                                <i class="fas fa-phone text-primary-foreground"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-foreground">Phone</h4>
+                                <p class="text-muted-foreground" data-mock="true">+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
+                                <i class="fas fa-map-marker-alt text-primary-foreground"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-foreground">Location</h4>
+                                <p class="text-muted-foreground" data-mock="true">San Francisco, CA</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-card rounded-lg border border-border p-8">
+                    <form class="contact-form space-y-6" data-implementation="Form should submit to backend API endpoint">
+                        <!-- @STATE: formData:object = {name: '', email: '', message: ''} -->
+                        <!-- @STATE: isSubmitting:boolean = false -->
+                        <!-- @STATE: submitStatus:string = '' -->
+                        
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-card-foreground mb-2">Full Name</label>
+                            <input type="text" id="name" name="name" required
+                                   class="w-full px-4 py-3 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent bg-background text-foreground"
+                                   placeholder="Your full name"
+                                   data-bind="formData.name">
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-card-foreground mb-2">Email Address</label>
+                            <input type="email" id="email" name="email" required
+                                   class="w-full px-4 py-3 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent bg-background text-foreground"
+                                   placeholder="your.email@example.com"
+                                   data-bind="formData.email">
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-card-foreground mb-2">Message</label>
+                            <textarea id="message" name="message" rows="6" required
+                                      class="w-full px-4 py-3 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent bg-background text-foreground resize-none"
+                                      placeholder="Tell me about your project or just say hello!"
+                                      data-bind="formData.message"></textarea>
+                        </div>
+                        
+                        <button type="submit" 
+                                class="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                                data-event="click:handleSubmit"
+                                data-implementation="Should validate form, show loading state, and send email via backend">
+                            <span class="submit-text">Send Message</span>
+                            <i class="fas fa-spinner fa-spin ml-2 hidden loading-spinner"></i>
+                        </button>
+                        
+                        <div class="form-message hidden p-4 rounded-lg text-center" data-bind="submitStatus">
+                            <!-- Success/Error messages will appear here -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: ContactSection -->
+
+    <!-- Footer -->
+    <!-- @COMPONENT: Footer [social links and copyright] -->
+    <footer class="bg-foreground text-background py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-bold mb-2">Isaac</h3>
+                    <p class="text-gray-300" data-mock="true">Full-Stack Developer & Digital Creator</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors text-xl" data-implementation="Link to GitHub profile">
+                        <i class="fab fa-github"></i>
+                        <span class="sr-only">GitHub</span>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors text-xl" data-implementation="Link to LinkedIn profile">
+                        <i class="fab fa-linkedin"></i>
+                        <span class="sr-only">LinkedIn</span>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors text-xl" data-implementation="Link to Twitter profile">
+                        <i class="fab fa-twitter"></i>
+                        <span class="sr-only">Twitter</span>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors text-xl" data-implementation="Link to Instagram profile">
+                        <i class="fab fa-instagram"></i>
+                        <span class="sr-only">Instagram</span>
+                    </a>
+                    <a href="mailto:isaac@example.com" class="text-gray-300 hover:text-white transition-colors text-xl" data-mock="true">
+                        <i class="fas fa-envelope"></i>
+                        <span class="sr-only">Email</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-400" data-mock="true">
+                    © 2024 Isaac. All rights reserved. Built with ❤️ and modern web technologies.
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <script>
+    (function() {
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        
+        mobileMenuBtn?.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Active navigation highlighting
+        function updateActiveNav() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateActiveNav);
+        updateActiveNav(); // Call once on load
+        
+        // Contact form handling
+        const contactForm = document.querySelector('.contact-form');
+        const submitBtn = contactForm?.querySelector('button[type="submit"]');
+        const submitText = submitBtn?.querySelector('.submit-text');
+        const loadingSpinner = submitBtn?.querySelector('.loading-spinner');
+        const formMessage = contactForm?.querySelector('.form-message');
+        
+        contactForm?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            if (submitBtn && submitText && loadingSpinner) {
+                submitBtn.disabled = true;
+                submitText.textContent = 'Sending...';
+                loadingSpinner.classList.remove('hidden');
+            }
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                message: formData.get('message')
+            };
+            
+            // TODO: Replace with actual backend API call
+            // Example backend endpoint: POST /api/contact
+            setTimeout(() => {
+                // Simulate successful submission for demo
+                if (formMessage) {
+                    formMessage.classList.remove('hidden');
+                    formMessage.className = 'form-message p-4 rounded-lg text-center bg-green-100 text-green-800';
+                    formMessage.textContent = 'Thank you for your message! I\'ll get back to you soon.';
+                }
+                
+                // Reset form
+                this.reset();
+                
+                // Reset button state
+                if (submitBtn && submitText && loadingSpinner) {
+                    submitBtn.disabled = false;
+                    submitText.textContent = 'Send Message';
+                    loadingSpinner.classList.add('hidden');
+                }
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    if (formMessage) {
+                        formMessage.classList.add('hidden');
+                    }
+                }, 5000);
+            }, 2000);
+        });
+        
+        // Intersection Observer for animations (optional enhancement)
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('section-visible');
+                    entry.target.classList.remove('section-hidden');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe sections for scroll animations
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('section-hidden');
+            observer.observe(section);
+        });
+    })();
+    </script>
+</body>
+</html>
