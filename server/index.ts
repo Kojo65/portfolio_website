@@ -2,27 +2,27 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic } from "./vite";
 
-// Create our express app
+// Create express app
 const app = express();
 
 // Middleware for parsing JSON and URL encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Simple logging middleware for API requests
+// Logging middleware for API requests
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
   let capturedJsonResponse: Record<string, any> | undefined = undefined;
 
-  // Capture JSON response for logging
+  // Capture JSON response
   const originalResJson = res.json;
   res.json = function (bodyJson, ...args) {
     capturedJsonResponse = bodyJson;
     return originalResJson.apply(res, [bodyJson, ...args]);
   };
 
-  // Log the request when it's finished
+  // Log finished request
   res.on("finish", () => {
     const duration = Date.now() - start;
     if (path.startsWith("/api")) {
@@ -31,7 +31,7 @@ app.use((req, res, next) => {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
 
-      // Truncate long log lines
+      // Truncate logs
       if (logLine.length > 80) {
         logLine = logLine.slice(0, 79) + "…";
       }
@@ -45,28 +45,35 @@ app.use((req, res, next) => {
 
 // Start the server
 (async () => {
+  // registerRoutes MUST return an HTTP server
   const server = await registerRoutes(app);
 
-  // Error handling middleware
+  // Global error handler
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
 
     res.status(status).json({ message });
-    console.error(err); // Log the full error for debugging
+    console.error(err); // Log full error
   });
 
-  // Setup Vite in development mode
+  // Development: use Vite
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
-    // Serve static files in production
+    // Production: serve static frontend
     serveStatic(app);
   }
 
-  // Start server on the specified port or default to 5000
-  const port = Number(process.env.PORT) || 5000;
-  server.listen(port, "localhost", () => {
-    console.log(`✅ Portfolio server is running on http://localhost:${port}`);
+  // 🚀 Render requires listening on process.env.PORT
+  const PORT = process.env.PORT || 5000;
+
+  // 🚀 Bind to 0.0.0.0 (REQUIRED FOR RENDER)
+  server.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
   });
 })();
+
+export default app;
+
+//
