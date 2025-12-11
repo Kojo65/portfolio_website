@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X } from "lucide-react";
 
-// Main navigation component with mobile support
+// Main navigation component with enhanced mobile support
 export default function Navigation() {
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -30,19 +30,19 @@ export default function Navigation() {
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
       scrolled ? "bg-background/95 backdrop-blur-md" : "bg-background/80 backdrop-blur-md"
     } border-b border-border`}>
-      <div className="max-w-6xl mx-auto px-6 py-4">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
         <div className="flex justify-between items-center">
-          <Link href="/" className="text-xl font-bold gradient-text" data-testid="logo-link">
+          <Link href="/" className="text-lg sm:text-xl font-bold gradient-text" data-testid="logo-link">
             Isaac Magbo
           </Link>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden sm:flex space-x-6 md:space-x-8">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`nav-link transition-colors ${
+                className={`nav-link transition-colors text-sm md:text-base ${
                   location === item.href ? "text-primary" : "text-foreground hover:text-primary"
                 }`}
                 data-testid={`nav-${item.label.toLowerCase()}`}
@@ -55,8 +55,10 @@ export default function Navigation() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-foreground"
+            className="sm:hidden text-foreground"
             data-testid="mobile-menu-button"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -64,14 +66,14 @@ export default function Navigation() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4" data-testid="mobile-menu">
-            <div className="flex flex-col space-y-4">
+          <div className="sm:hidden mt-4 pb-4" data-testid="mobile-menu">
+            <div className="flex flex-col space-y-3">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`nav-link transition-colors ${
-                    location === item.href ? "text-primary" : "text-foreground hover:text-primary"
+                  className={`nav-link transition-colors py-2 px-4 rounded-lg ${
+                    location === item.href ? "text-primary bg-primary/10" : "text-foreground hover:bg-muted"
                   }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                   data-testid={`mobile-nav-${item.label.toLowerCase()}`}
