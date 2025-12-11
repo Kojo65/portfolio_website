@@ -5,29 +5,30 @@ import { contactMessageSchema, type ContactResponse } from "@shared/schema";
 import { z } from "zod";
 import nodemailer from "nodemailer";
 
+// Register all our API routes
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Contact form submission endpoint
+  // Handle contact form submissions
   app.post("/api/contact", async (req, res) => {
     try {
-      // Validate the request body
+      // Validate incoming data
       const validatedData = contactMessageSchema.parse(req.body);
       
-      // Save the message to storage
+      // Store the message
       await storage.saveContactMessage(validatedData);
       
-      // Create transporter for sending email
-      const transporter = nodemailer.createTransporter({
+      // Setup email transport
+      const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: process.env.EMAIL_USER || process.env.GMAIL_USER || 'magboisaac390@gmail.com',
+          user: process.env.EMAIL_USER || process.env.GMAIL_USER || 'your-email@gmail.com',
           pass: process.env.EMAIL_PASS || process.env.GMAIL_PASS || 'your-app-password'
         }
       });
       
-      // Email content
+      // Prepare email content
       const mailOptions = {
-        from: process.env.EMAIL_USER || process.env.GMAIL_USER || 'magboisaac390@gmail.com',
-        to: process.env.CONTACT_EMAIL || process.env.EMAIL_USER || process.env.GMAIL_USER || 'magboisaac390@gmail.com',
+        from: process.env.EMAIL_USER || process.env.GMAIL_USER || 'your-email@gmail.com',
+        to: process.env.CONTACT_EMAIL || process.env.EMAIL_USER || process.env.GMAIL_USER || 'your-email@gmail.com',
         subject: `Portfolio Contact: Message from ${validatedData.name}`,
         html: `
           <h3>New Contact Form Submission</h3>
@@ -38,7 +39,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         `
       };
       
-      // Send email
+      // Try to send the email
       try {
         await transporter.sendMail(mailOptions);
         
@@ -51,6 +52,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } catch (emailError) {
         console.error('Email sending failed:', emailError);
         
+        // Still respond successfully since we saved the message
         const response: ContactResponse = {
           success: true,
           message: "Your message has been received! I'll get back to you soon."
@@ -60,6 +62,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
     } catch (error) {
+      // Handle validation errors
       if (error instanceof z.ZodError) {
         res.status(400).json({
           success: false,
@@ -67,6 +70,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           errors: error.errors
         });
       } else {
+        // Handle other errors
         console.error('Contact form error:', error);
         res.status(500).json({
           success: false,
@@ -76,6 +80,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Create and return the HTTP server
   const httpServer = createServer(app);
   return httpServer;
 }

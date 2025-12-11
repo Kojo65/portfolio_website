@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -11,9 +10,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Mail, MapPin, Clock, Loader2 } from "lucide-react";
 
+// Contact page component with form and information
 export default function Contact() {
   const { toast } = useToast();
   
+  // Setup form with validation
   const form = useForm<ContactMessage>({
     resolver: zodResolver(contactMessageSchema),
     defaultValues: {
@@ -23,6 +24,7 @@ export default function Contact() {
     },
   });
 
+  // Handle form submission
   const contactMutation = useMutation({
     mutationFn: async (data: ContactMessage) => {
       const response = await apiRequest("POST", "/api/contact", data);
@@ -53,6 +55,7 @@ export default function Contact() {
     },
   });
 
+  // Form submit handler
   const onSubmit = (data: ContactMessage) => {
     contactMutation.mutate(data);
   };
@@ -69,7 +72,7 @@ export default function Contact() {
           </div>
           
           <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Info */}
+            {/* Contact Information */}
             <div className="space-y-8">
               <div>
                 <h3 className="text-2xl font-semibold mb-6" data-testid="contact-info-title">Let's Connect</h3>

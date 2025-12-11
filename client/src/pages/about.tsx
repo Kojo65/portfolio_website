@@ -1,7 +1,7 @@
 export default function About() {
   const frontendSkills = ["React", "JavaScript", "TypeScript", "HTML/CSS", "Tailwind"];
   const backendSkills = ["Node.js", "Express", "Python", "Flask", "MongoDB"];
-  const tools = ["Git", "Docker", "AWS", "Vercel", "Replit"];
+  const tools = ["Git", "Docker", "AWS", "Vercel"];
 
   return (
     <div className="pt-20">
